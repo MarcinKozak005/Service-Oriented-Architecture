@@ -1,14 +1,8 @@
 # Lab2
 
+### Servlets & Filters:
 
-
-### Content
-
-
-
-- Exercises - project prepared by the teacher and my solutions to those exercises
-
-- Zad1 - Servlet: Mean Calculator and Sorting
-
-- Zad2 - Filter, Logging: BeerAdvisor/BeerExpert
-- Zad3 - FeedbackForm
+- **Exercises** - projects prepared by the teacher and my solutions to those exercises.
+  - **Zad1** - Mean Calculator and Sorting Servlets.
+- **Zad2** - BeerAdvisor BeerExpert: tells which beer is best for You.
+- **Zad3** - FeedbackForm with logging in.

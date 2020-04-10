@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:H="http://java.sun.com/jsf/html">
+
+<h:head></h:head>
+<h:body>
+      <h:form>
+          Select the brand:
+          <h:panelGroup id="questions">
+         <h:selectOneMenu value="#{FormValidator.selectedBrand}">
+            <f:selectItems value="#{FormValidator.mapAsList}"/>
+            <f:ajax render="modelSelectList" listener="#{FormValidator.brandChange}" event="change"/>
+         </h:selectOneMenu> <br/>
+
+          Select the model:
+          <h:selectOneMenu id="modelSelectList" value="#{FormValidator.selectedModel}">
+              <f:selectItems value="#{FormValidator.modelsForBrand}"/>
+          </h:selectOneMenu> <br/>
+
+          <hr/>
+          Min price:
+          <f:ajax render="priceMessage buttons" listener="#{FormValidator.priceValidator}">
+              <h:inputText value="#{FormValidator.minPrice}">
+              </h:inputText>
+              Max price:
+              <h:inputText value="#{FormValidator.maxPrice}">
+              </h:inputText>
+          </f:ajax>
+          <h:outputText id="priceMessage" value="#{FormValidator.priceMessage}" style="color: red"/> <br/>
+
+          On/Gasoline:
+          <h:selectOneRadio value="#{FormValidator.engineType}">
+              <f:selectItem itemValue="ON" itemLabel="ON"/>
+              <f:selectItem itemValue="Gasoline" itemLabel="Gasoline"/>
+          </h:selectOneRadio> <br/>
+          Name:
+          <h:inputText value="#{FormValidator.name}">
+              <f:ajax listener="#{FormValidator.nameValidator}" render="buttons"/>
+          </h:inputText>
+
+          <f:ajax listener="#{FormValidator.numberValidator}" render="numberMessage buttons">
+              Number:
+              <h:inputText value="#{FormValidator.number}"/>
+          </f:ajax>
+          <h:outputText id="numberMessage" value="#{FormValidator.numberMessage}" style="color: red"/><br/>
+          </h:panelGroup>
+          <h:panelGroup id="buttons">
+              <h:commandButton value="Send" action="#{FormValidator.lookForCars()}" disabled="#{!FormValidator.isAllValid()}"/>
+<!--              <h:commandButton value="Clear" type="reset"/>-->
+          </h:panelGroup>
+      </h:form>
+
+    <h:dataTable id="tabela" value="#{FormValidator.foundCars}" var="car" rendered="#{FormValidator.foundCars != null}">
+        <h:column>
+            <f:facet name="header">Brand</f:facet>
+            <h:outputText value="#{car.brand}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">Model</f:facet>
+            <h:outputText value="#{car.model}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">Price</f:facet>
+            <h:outputText value="#{car.price}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">Engine</f:facet>
+            <h:outputText value="#{car.engineType}" />
+        </h:column>
+
+    </h:dataTable>
+
+</h:body>
+</html>
