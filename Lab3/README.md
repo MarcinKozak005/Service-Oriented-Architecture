@@ -7,3 +7,4 @@
   - **Zad2** - Currency exchange. It connects to external API to download currency rates. You can dynamically add currencies.
   - **Zad3** - Car searching - form with AJAX and validation.
 - **Zad1** - Book searching - form with AJAX.
+- **Zad2** - Clothes store, clients preferences market study - form with AJAX.
