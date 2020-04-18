@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Order books</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+
+    <h1>Add Book</h1>
+    <h:form id="additionForm">
+        <h:panelGrid columns="3">
+        Author surname:
+        <h:inputText id="authorSurnameField" value="#{BookBean.authorSurname}"
+                     required="true" requiredMessage="Author's surname is required"/>
+        <h:message for="authorSurnameField" style="color: red;"/> <br/>
+
+        Author name:
+        <h:inputText id="authorNameField" value="#{BookBean.authorName}"
+                     required="true" requiredMessage="Author's name is required"/>
+        <h:message for="authorNameField" style="color: red;"/> <br/>
+
+        Book title:
+        <h:inputText id="bookTitleField" value="#{BookBean.bookTitle}"
+                     required="true" requiredMessage="Book title is required"/>
+        <h:message for="bookTitleField" style="color: red;"/> <br/>
+
+        ISBN number:
+        <h:inputText id="ISBNField" value="#{BookBean.isbnNumber}"
+                     required="true" requiredMessage="ISBN name is required"/>
+        <h:message for="ISBNField" style="color: red;"/> <br/>
+
+        Date of issue:
+        <h:inputText id="issueField" value="#{BookBean.dateOfIssue}"
+                     required="true" requiredMessage="Issue date is required">
+            <f:convertDateTime pattern="yyyy.MM.dd"/>
+        </h:inputText>
+        <h:message for="issueField" style="color: red;"/> <br/>
+
+        Price:
+        <h:inputText id="priceField" value="#{BookBean.price}"
+                     required="true" requiredMessage="Price is required"/>
+        <h:message for="priceField" style="color: red;"/> <br/>
+
+        <h:commandButton value="Create book" action="#{BookBean.addBookToDataBase()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Delete Book</h1>
+    <h:form>
+        <h:inputText id="deleteIdField" binding="#{bookToDeleteId}" required="true" requiredMessage="Insert id!"/>
+        <h:message for="deleteIdField" style="color: red"/><br/>
+        <h:commandButton value="Delete book" action="#{BookBean.deleteBookById(bookToDeleteId.value)}"/>
+    </h:form>
+
+    <h1>Update Book</h1>
+    <p>Fill only those fields, which You want to update!</p>
+    <h:form>
+        <h:inputText id="updateIdField" binding="#{bookToUpdateId}" required="true" requiredMessage="Insert id!"/>
+        <h:message for="updateIdField" style="color: red"/><br/>
+
+        Author surname:
+        <h:inputText value="#{BookBean.authorSurnameUpdate}"/><br/>
+
+        Author name:
+        <h:inputText value="#{BookBean.authorNameUpdate}"/><br/>
+
+        Book title:
+        <h:inputText value="#{BookBean.bookTitleUpdate}"/><br/>
+
+        ISBN number:
+        <h:inputText value="#{BookBean.isbnNumberUpdate}"/><br/>
+
+        Date of issue:
+        <h:inputText id="issueUpdateField" value="#{BookBean.dateOfIssueUpdate}">
+            <f:convertDateTime pattern="yyyy.MM.dd"/>
+        </h:inputText>
+        <h:message for="issueUpdateField" style="color: red;"/> <br/>
+
+        Price:
+        <h:inputText value="#{BookBean.priceUpdate}"/><br/>
+
+        <h:commandButton value="Update book" action="#{BookBean.updateBook(bookToUpdateId.value)}"/><br/>
+
+        <h1>Books in Database</h1>
+    </h:form>
+
+        <h:dataTable value="#{BookBean.getAllBooks()}" var="book"
+                     styleClass = "employeeTable"
+                     headerClass = "employeeTableHeader"
+                     rowClasses = "employeeTableOddRow,employeeTableEvenRow">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                #{book.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Author name</f:facet>
+                #{book.authorName}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Author surname</f:facet>
+                #{book.authorSurname}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Title</f:facet>
+                #{book.bookTitle}
+            </h:column>
+            <h:column>
+                <f:facet name="header">ISBN</f:facet>
+                #{book.isbnNumber}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Data of issue</f:facet>
+                #{book.dateOfIssue}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                #{book.price}
+            </h:column>
+        </h:dataTable>
+        <br/>
+
+</h:body>
+</html>

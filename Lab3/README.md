@@ -2,7 +2,7 @@
 
 ### Content
 
-- **Exercises** - projects prepared by the teacher and my solutions to those exercises
+- **Exercises** - projects prepared by the teacher and my solutions to simple exercises
   - **Zad1** - Guessing game: guess the number drawn by lot by app.
   - **Zad2** - Currency exchange. It connects to external API to download currency rates. You can dynamically add currencies.
   - **Zad3** - Car searching - form with AJAX and validation.
