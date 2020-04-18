@@ -1,0 +1,7 @@
+CREATE TABLE student_table
+(
+	id INT NOT NULL PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	surname VARCHAR(30) NOT NULL,
+	date DATE NOT NULL
+);
