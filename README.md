@@ -15,4 +15,4 @@ More detailed descriptions in READMEs inside the folders
 
 5\. **[JPA, Hibernate](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab5)** - Simple book management app
 
-5\. **[Advanced Hibernate](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab6)** - More advanced book management app, Criteria API
+6\. **[Advanced Hibernate](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab6)** - More advanced book management app, Criteria API
