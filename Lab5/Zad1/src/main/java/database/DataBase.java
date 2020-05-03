@@ -21,7 +21,12 @@ public class DataBase implements DataBaseAPI
     {
         try {
             Query q = em.createQuery("FROM BooksTableEntity ", BooksTableEntity.class);
-            return (List<BooksTableEntity>) q.getResultList();
+            List<BooksTableEntity> r = (List<BooksTableEntity>) q.getResultList();
+            for (BooksTableEntity a:r)
+            {
+                System.out.println(a);
+            }
+            return null;
         }
         catch(Exception e) {
             System.err.println("An error occurred during selecting entities: " + e);

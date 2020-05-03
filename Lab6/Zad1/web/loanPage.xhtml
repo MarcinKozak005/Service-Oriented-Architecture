@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Loan</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h1>Add Loan</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Specimen:
+            <h:selectOneMenu id="specimenSelection" value="#{LoanBean.specimenId}">
+                <f:selectItems value="#{SpecimenBean.allSpecimens}" var="specimen" itemValue="#{specimen.specimen_id}" itemLabel="#{specimen.specimen_id}# #{specimen.specimen_book.book_title}"/>
+            </h:selectOneMenu>
+            <h:message for="specimenSelection"/>
+            Reader:
+            <h:selectOneMenu id="readerSelection" value="#{LoanBean.readerId}">
+                <f:selectItems value="#{ReaderBean.allReaders}" var="reader" itemValue="#{reader.reader_id}" itemLabel="#{reader.reader_name} #{reader.reader_surname}"/>
+            </h:selectOneMenu>
+            <h:message for="readerSelection"/>
+<!--            Start date:-->
+<!--            <h:inputText id="startDateSelection" value="#{LoanBean.startDate}">-->
+<!--                <f:convertDateTime pattern="dd-MM-yyyy"/>-->
+<!--            </h:inputText>-->
+<!--            <h:message for="startDateSelection" style="color: red"/>-->
+<!--            End date:-->
+<!--            <h:inputText id="endDateSelection" value="#{LoanBean.endDate}">-->
+<!--                <f:convertDateTime pattern="dd-MM-yyyy"/>-->
+<!--            </h:inputText>-->
+<!--            <h:message for="endDateSelection" style="color: red"/>-->
+            StartDate: <p:calendar id="startDate" value="#{LoanBean.startDate}" pattern="dd-MM-yyyy" required="true" />
+            <h:message for="startDate" style="color: red"/>
+            EndDate: <p:calendar id="endDate" value="#{LoanBean.endDate}" pattern="dd-MM-yyyy"/>
+            <h:message for="endDate" style="color: red"/>
+            <o:validateOrder id="validator" components="startDate endDate" />
+            <h:commandButton value="Create" action="#{LoanBean.addLoan()}"/>
+            <h:message for="validator" style="color: red"/>
+        </h:panelGrid>
+    </h:form>
+    <br/>
+
+    <h1>Delete Loan</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Id: <h:inputText id="idDelete" value="#{LoanBean.loanId}" required="true" requiredMessage="Id is required"/>
+            <h:message for="idDelete" style="color: red"/>
+            <h:commandButton value="Delete" action="#{LoanBean.deleteLoan()}"/>
+        </h:panelGrid>
+    </h:form>
+
+
+    <h1>Update Loan</h1>
+    <p>Fill only those to update!</p>
+    <h:form id="updateForm">
+        <h:panelGrid columns="2">
+            Id: <h:inputText id="idUpdate" value="#{LoanBean.loanId}" required="true" requiredMessage="Id is required"/>
+            Specimen:
+            <h:selectOneMenu id="specimenUpdate" value="#{LoanBean.specimenId}">
+                <f:selectItems value="#{SpecimenBean.allSpecimens}" var="specimen" itemValue="#{specimen.specimen_id}" itemLabel="#{specimen.specimen_id}# #{specimen.specimen_book.book_title}"/>
+            </h:selectOneMenu>
+            Reader:
+            <h:selectOneMenu id="readerUpdate" value="#{LoanBean.readerId}">
+                <f:selectItems value="#{ReaderBean.allReaders}" var="reader" itemValue="#{reader.reader_id}" itemLabel="#{reader.reader_name} #{reader.reader_surname}"/>
+            </h:selectOneMenu>
+            StartDate: <p:calendar id="startDateUpdate" value="#{LoanBean.startDate}" pattern="yyyy-MM-dd"/>
+            EndDate: <p:calendar id="endDateUpdate" value="#{LoanBean.endDate}" pattern="yyyy-MM-dd"/>
+            <o:validateOrder id="validator2" components="startDateUpdate endDateUpdate" />
+
+            <h:commandButton value="Update" action="#{LoanBean.updateLoan()}"/>
+            <h:message for="idUpdate" style="color: red"/>
+            <h:message for="validator2" style="color: red"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h:form>
+        <p:dataTable value="#{LoanBean.getAllLoans()}" var="loan"
+                     emptyMessage="Nothing found" filteredValue="#{LoanBean.filteredValues}">
+            <p:column  headerText="Id" filterMatchMode="exact" filterBy="#{loan.getLoan_id()}">
+                <h:outputText value="#{loan.getLoan_id()}"/>
+            </p:column>
+            <p:column  headerText="Reader" filterMatchMode="startsWith" filterBy="#{loan.getLoan_reader().getReader_name()} #{loan.getLoan_reader().getReader_surname()}">
+                <h:outputText value="#{loan.getLoan_reader().getReader_name()} #{loan.getLoan_reader().getReader_surname()}"/>
+            </p:column>
+            <p:column  headerText="Specimen" filterMatchMode="startsWith" filterBy="#{loan.getLoan_specimen().getSpecimen_id()}# #{loan.getLoan_specimen().getSpecimen_book().getBook_title()}">
+                <h:outputText value="#{loan.getLoan_specimen().getSpecimen_id()}# #{loan.getLoan_specimen().getSpecimen_book().getBook_title()}"/>
+            </p:column>
+            <p:column  headerText="Date start" filterMatchMode="exact" filterBy="#{loan.getLoan_start_date()}">
+                <h:outputText value="#{loan.getLoan_start_date()}"/>
+            </p:column>
+            <p:column  headerText="Date End" filterMatchMode="exact" filterBy="#{loan.getLoan_end_date()}">
+                <h:outputText value="#{loan.getLoan_end_date()}"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+    <br/>
+
+</h:body>
+</html>

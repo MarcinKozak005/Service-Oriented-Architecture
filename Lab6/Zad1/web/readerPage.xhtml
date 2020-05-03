@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Reader</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h1>Add Reader</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Name: <h:inputText id="readerNameCreate" value="#{ReaderBean.name}" required="true" requiredMessage="Name is required"/>
+            <h:message for="readerNameCreate" style="color: red"/>
+            Surname: <h:inputText id="readerSurnameCreate" value="#{ReaderBean.surname}" required="true" requiredMessage="Surname is required"/>
+            <h:message for="readerSurnameCreate" style="color: red"/>
+            <h:commandButton value="Create" action="#{ReaderBean.addReader()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Delete Reader</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Id: <h:inputText id="idDelete" value="#{ReaderBean.id}" required="true" requiredMessage="Id is required"/>
+            <h:message for="idDelete" style="color: red"/>
+            <h:commandButton value="Delete" action="#{ReaderBean.deleteReader()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Update Reader</h1>
+    <p>Fill only those to update!</p>
+    <h:form>
+        <h:panelGrid columns="2">
+            Id: <h:inputText id="idUpdate" value="#{ReaderBean.id}" required="true" requiredMessage="Id is required"/>
+            Name: <h:inputText id="readerNameUpdate" value="#{ReaderBean.name}"/>
+            Surname: <h:inputText id="readerSurnameUpdate" value="#{ReaderBean.surname}"/>
+            <h:commandButton value="Update" action="#{ReaderBean.updateReader()}"/>
+            <h:message for="idUpdate" style="color: red"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h:form>
+        <p:dataTable value="#{ReaderBean.getAllReaders()}" var="reader"
+                     emptyMessage="Nothing found" filteredValue="#{ReaderBean.filteredValues}">
+            <p:column  headerText="Id" filterMatchMode="exact" filterBy="#{reader.getReader_id()}">
+                <h:outputText value="#{reader.getReader_id()}"/>
+            </p:column>
+            <p:column  headerText="Name" filterMatchMode="startsWith" filterBy="#{reader.getReader_name()}">
+                <h:outputText value="#{reader.getReader_name()}"/>
+            </p:column>
+            <p:column  headerText="Surname" filterMatchMode="startsWith" filterBy="#{reader.getReader_surname()}">
+                <h:outputText value="#{reader.getReader_surname()}"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+    <br/>
+
+</h:body>
+</html>

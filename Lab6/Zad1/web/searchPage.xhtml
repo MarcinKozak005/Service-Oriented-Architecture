@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Loan Search</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h2>Search loans in the database</h2>
+
+    <h:form>
+        <p:selectOneRadio value="#{SearchBean.classicSearch}">
+            <f:ajax event="change" render="classicSearch groupSearch resultTables"/>
+            <f:selectItem itemLabel="Classic search" itemValue="#{true}"/>
+            <f:selectItem itemLabel="Grouping" itemValue="#{false}"/>
+        </p:selectOneRadio>
+        <h:panelGroup id="classicSearch">
+            <h:panelGrid columns="9" rendered="#{SearchBean.classicSearch}">
+                <h:outputText value="Reader Name:"/>
+                <h:outputText value="Reader Surname"/>
+                <h:outputText value="Book title"/>
+                <h:outputText value="Book isbn"/>
+                <h:outputText value="Category name"/>
+                <h:outputText value="Author name"/>
+                <h:outputText value="Author surname"/>
+                <h:outputText value="StartDate"/>
+                <h:outputText value="EndDate"/>
+
+                <h:inputText value="#{SearchBean.readerName}"/>
+                <h:inputText value="#{SearchBean.readerSurname}"/>
+                <h:inputText value="#{SearchBean.bookTitle}"/>
+                <h:inputText value="#{SearchBean.isbn}"/>
+                <h:inputText value="#{SearchBean.categoryName}"/>
+                <h:inputText value="#{SearchBean.authorName}"/>
+                <h:inputText value="#{SearchBean.authorSurname}"/>
+                <p:calendar id="startDateSearch" value="#{SearchBean.startDate}" pattern="yyyy-MM-dd" validatorMessage="Incorrect start date format"/>
+                <p:calendar id="endDateSearch" value="#{SearchBean.endDate}" pattern="yyyy-MM-dd" validatorMessage="Incorrect end date format"/>
+            </h:panelGrid>
+            <h:panelGroup rendered="#{SearchBean.classicSearch}">
+                <br/>
+                Select which inputs should be treated as SQL LIKE pattern. Input '%' for string of characters and '_' for single character
+                <p:selectManyCheckbox value="#{SearchBean.treatAsLike}">
+                    <f:selectItem itemLabel="Reader name" itemValue="reader_name"/>
+                    <f:selectItem itemLabel="Reader surname" itemValue="reader_surname"/>
+                    <f:selectItem itemLabel="Book title" itemValue="book_title"/>
+                    <f:selectItem itemLabel="ISBN" itemValue="isbn"/>
+                    <f:selectItem itemLabel="Category" itemValue="category_name"/>
+                    <f:selectItem itemLabel="Author name" itemValue="author_name"/>
+                    <f:selectItem itemLabel="Author Surname" itemValue="author_surname"/>
+                </p:selectManyCheckbox>
+                <br/>
+                <h:commandButton value="Send" action="#{SearchBean.executeClassicSearch()}"/>
+                <h:message for="startDateSearch"/>
+                <h:message for="endDateSearch"/>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup id="groupSearch">
+            <h:panelGroup rendered="#{not SearchBean.classicSearch}">
+                <p>Select which fields has to be grouped and counted</p>
+                <p:selectManyCheckbox id="groups" value="#{SearchBean.chosenGroupings}" required="true">
+                    <f:selectItem itemLabel="Reader name" itemValue="reader_name"/>
+                    <f:selectItem itemLabel="Reader surname" itemValue="reader_surname"/>
+                    <f:selectItem itemLabel="Book title" itemValue="book_title"/>
+                    <f:selectItem itemLabel="ISBN" itemValue="isbn"/>
+                    <f:selectItem itemLabel="Category" itemValue="category_name"/>
+                    <f:selectItem itemLabel="Author name" itemValue="author_name"/>
+                    <f:selectItem itemLabel="Author Surname" itemValue="author_surname"/>
+                </p:selectManyCheckbox>
+                Start and End Loan Date
+                <p:calendar id="startDateSearchGrouping" value="#{SearchBean.startDate}" pattern="yyyy-MM-dd" converterMessage="Incorrect start date format"/>
+                <p:calendar id="endDateSearchGrouping" value="#{SearchBean.endDate}" pattern="yyyy-MM-dd" converterMessage="Incorrect end date format"/>
+                <h:commandButton value="Group" action="#{SearchBean.executeGroupingSearch()}"/>
+                <h:message for="groups"/>
+                <h:message for="startDateSearchGrouping"/>
+                <h:message for="endDateSearchGrouping"/>
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:form>
+
+    <h:panelGroup id="resultTables">
+        <h:dataTable value="#{SearchBean.groupQueryResultList}" var="obj" rendered="#{not SearchBean.classicSearch}"
+                     styleClass = "table"
+                     headerClass = "tableHeader"
+                     rowClasses = "tableOddRow,tableEvenRow">
+            <h:column>
+                <f:facet name="header">Grouping</f:facet>
+                <h:outputText value="#{obj[0]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Count</f:facet>
+                <h:outputText value="#{obj[1]}"/>
+            </h:column>
+        </h:dataTable>
+
+        <h:dataTable value="#{SearchBean.classicQueryResultList}" var="obj" rendered="#{SearchBean.classicSearch}"
+                     styleClass = "table"
+                     headerClass = "tableHeader"
+                     rowClasses = "tableOddRow,tableEvenRow">
+            <h:column>
+                <f:facet name="header">Reader Name</f:facet>
+                <h:outputText value="#{obj[0]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Reader Surname</f:facet>
+                <h:outputText value="#{obj[1]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Book title</f:facet>
+                <h:outputText value="#{obj[2]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">ISBN</f:facet>
+                <h:outputText value="#{obj[3]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Category</f:facet>
+                <h:outputText value="#{obj[4]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Author Name</f:facet>
+                <h:outputText value="#{obj[5]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Author Surname</f:facet>
+                <h:outputText value="#{obj[6]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">StartDate</f:facet>
+                <h:outputText value="#{obj[7]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">EndDate</f:facet>
+                <h:outputText value="#{obj[8]}"/>
+            </h:column>
+        </h:dataTable>
+        <br/>
+    </h:panelGroup>
+
+
+</h:body>
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Book</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h1>Add Book</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Title: <h:inputText id="bookTitleCreate" value="#{BookBean.title}" required="true" requiredMessage="Book title is required"/>
+            <h:message for="bookTitleCreate" style="color: red"/>
+            ISBN: <h:inputText id="isbnCreate" value="#{BookBean.isbn}" required="true" requiredMessage="ISBN is required"/>
+            <h:message for="isbnCreate" style="color: red"/>
+            Category:
+            <h:selectOneMenu id="categorySelection" value="#{BookBean.categoryId}">
+                <f:selectItems value="#{CategoryBean.allCategories}" var="category" itemValue="#{category.category_id}" itemLabel="#{category.category_name}"/>
+            </h:selectOneMenu>
+            <h:message for="categorySelection"/>
+            Author:
+            <h:selectOneMenu id="authorSelection" value="#{BookBean.authorId}">
+                <f:selectItems value="#{AuthorBean.allAuthors}" var="author" itemValue="#{author.author_id}" itemLabel="#{author.author_name} #{author.author_surname}"/>
+            </h:selectOneMenu>
+            <h:message for="authorSelection"/>
+            <h:commandButton value="Create" action="#{BookBean.addBook()}"/>
+        </h:panelGrid>
+    </h:form>
+    <br/>
+    
+    <h1>Delete Book</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Id: <h:inputText id="idDelete" value="#{BookBean.id}" required="true" requiredMessage="Id is required"/>
+            <h:message for="idDelete" style="color: red"/>
+            <h:commandButton value="Delete" action="#{BookBean.deleteBook()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Update Book</h1>
+    <p>Fill only those to update!</p>
+    <h:form>
+        <h:panelGrid columns="2">
+            Id: <h:inputText id="idUpdate" value="#{BookBean.id}" required="true" requiredMessage="Id is required"/>
+            Title: <h:inputText id="bookTitleUpdate" value="#{BookBean.title}"/>
+            ISBN: <h:inputText id="isbnUpdate" value="#{BookBean.isbn}"/>
+            Category:
+            <h:selectOneMenu id="categoryUpdate" value="#{BookBean.categoryId}">
+                <f:selectItems value="#{CategoryBean.allCategories}" var="category" itemValue="#{category.category_id}" itemLabel="#{category.category_name}"/>
+            </h:selectOneMenu>
+            Author:
+            <h:selectOneMenu id="authorUpdate" value="#{BookBean.authorId}">
+                <f:selectItems value="#{AuthorBean.allAuthors}" var="author" itemValue="#{author.author_id}" itemLabel="#{author.author_name} #{author.author_surname}"/>
+            </h:selectOneMenu>
+            <h:commandButton value="Update" action="#{BookBean.updateBook()}"/>
+            <h:message for="idUpdate" style="color: red"/>
+        </h:panelGrid>
+    </h:form>
+
+
+    <h:form>
+        <p:dataTable value="#{BookBean.getAllBooks()}" var="book"
+                     emptyMessage="Nothing found" filteredValue="#{BookBean.filteredValues}">
+            <p:column  headerText="Id" filterMatchMode="exact" filterBy="#{book.getBook_id()}">
+                <h:outputText value="#{book.getBook_id()}"/>
+            </p:column>
+            <p:column  headerText="Title" filterMatchMode="startsWith" filterBy="#{book.getBook_title()}">
+                <h:outputText value="#{book.getBook_title()}"/>
+            </p:column>
+            <p:column  headerText="ISBN" filterMatchMode="contains" filterBy="#{book.getIsbn()}">
+                <h:outputText value="#{book.getIsbn()}"/>
+            </p:column>
+            <p:column  headerText="Author Name" filterMatchMode="startsWith" filterBy="#{book.getBook_author().getAuthor_name()}">
+                <h:outputText value="#{book.getBook_author().getAuthor_name()}"/>
+            </p:column>
+            <p:column  headerText="Author Surname" filterMatchMode="startsWith" filterBy="#{book.getBook_author().getAuthor_surname()}">
+                <h:outputText value="#{book.getBook_author().getAuthor_surname()}"/>
+            </p:column>
+            <p:column  headerText="Category" filterMatchMode="startsWith" filterBy="#{book.getBook_category().getCategory_name()}">
+                <h:outputText value="#{book.getBook_category().getCategory_name()}"/>
+            </p:column>
+
+
+        </p:dataTable>
+    </h:form>
+    <br/>
+
+</h:body>
+</html>

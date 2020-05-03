@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Specimen</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h1>Add Specimen</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Book:
+            <h:selectOneMenu id="bookSelection" value="#{SpecimenBean.bookId}">
+                <f:selectItems value="#{BookBean.allBooks}" var="book" itemValue="#{book.book_id}" itemLabel="#{book.book_title}"/>
+            </h:selectOneMenu>
+            <h:message for="bookSelection"/>
+
+            Quantity of Specimens to add:
+            <h:inputText id="quantitySelection" value="#{SpecimenBean.quantity}">
+                <f:validateLongRange minimum="0"/>
+            </h:inputText>
+            <h:message for="quantitySelection" style="color: red"/>
+            Are Available:
+            <h:selectOneRadio value="#{SpecimenBean.available}">
+                <f:selectItem itemValue="#{true}" itemLabel="Yes"/>
+                <f:selectItem itemValue="#{false}" itemLabel="No"/>
+            </h:selectOneRadio><br/>
+            <h:commandButton value="Create" action="#{SpecimenBean.addSpecimen()}"/>
+
+
+        </h:panelGrid>
+    </h:form>
+    <br/>
+
+    <h1>Delete Specimen</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Id: <h:inputText id="idDelete" value="#{SpecimenBean.specimenId}" required="true" requiredMessage="Id is required"/>
+            <h:message for="idDelete" style="color: red"/>
+            <h:commandButton value="Delete" action="#{SpecimenBean.deleteSpecimen()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Update Specimen</h1>
+    <p>Fill only those to update!</p>
+    <h:form>
+        <h:panelGrid columns="2">
+            Id: <h:inputText id="idUpdate" value="#{SpecimenBean.specimenId}" required="true" requiredMessage="Id is required"/>
+            Book:
+            <h:selectOneMenu id="bookUpdate" value="#{SpecimenBean.bookId}">
+                <f:selectItems value="#{BookBean.allBooks}" var="book" itemValue="#{book.book_id}" itemLabel="#{book.book_title}"/>
+            </h:selectOneMenu>
+            Available:
+            <h:selectOneRadio value="#{SpecimenBean.available}">
+                <f:selectItem itemValue="#{true}" itemLabel="Yes"/>
+                <f:selectItem itemValue="#{false}" itemLabel="No"/>
+            </h:selectOneRadio>
+            <h:commandButton value="Update" action="#{SpecimenBean.updateSpecimen()}"/>
+            <h:message for="idUpdate" style="color: red"/>
+
+        </h:panelGrid>
+    </h:form>
+
+
+    <h:form>
+        <p:dataTable value="#{SpecimenBean.getAllSpecimens()}" var="specimen"
+                     emptyMessage="Nothing found" filteredValue="#{SpecimenBean.filteredValues}">
+            <p:column  headerText="Id" filterMatchMode="exact" filterBy="#{specimen.getSpecimen_id()}">
+                <h:outputText value="#{specimen.getSpecimen_id()}"/>
+            </p:column>
+            <p:column  headerText="Book title" filterMatchMode="startsWith" filterBy="#{specimen.getSpecimen_book().getBook_title()}">
+                <h:outputText value="#{specimen.getSpecimen_book().getBook_title()}"/>
+            </p:column>
+            <p:column  headerText="Availability" filterMatchMode="exact" filterBy="#{specimen.isFree()}">
+                <h:outputText value="#{specimen.isFree()}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <br/>
+
+</h:body>
+</html>

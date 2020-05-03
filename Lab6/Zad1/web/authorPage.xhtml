@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Author</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h1>Add Author</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Name: <h:inputText id="authorNameCreate" value="#{AuthorBean.name}" required="true" requiredMessage="Name is required"/>
+            <h:message for="authorNameCreate" style="color: red"/>
+            Surname: <h:inputText id="userSurnameCreate" value="#{AuthorBean.surname}" required="true" requiredMessage="Surname is required"/>
+            <h:message for="userSurnameCreate" style="color: red"/>
+            <h:commandButton value="Create" action="#{AuthorBean.addAuthor()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Delete Author</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Id: <h:inputText id="idDelete" value="#{AuthorBean.id}" required="true" requiredMessage="Id is required"/>
+            <h:message for="idDelete" style="color: red"/>
+            <h:commandButton value="Delete" action="#{AuthorBean.deleteAuthor()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Update Author</h1>
+    <p>Fill only those to update!</p>
+    <h:form>
+        <h:panelGrid columns="2">
+            Id: <h:inputText id="idUpdate" value="#{AuthorBean.id}" required="true" requiredMessage="Id is required"/>
+            Name: <h:inputText id="authorNameUpdate" value="#{AuthorBean.name}"/>
+            Surname: <h:inputText id="authorSurnameUpdate" value="#{AuthorBean.surname}"/>
+            <h:commandButton value="Update" action="#{AuthorBean.updateAuthor()}"/>
+            <h:message for="idUpdate" style="color: red"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h:form>
+        <p:dataTable value="#{AuthorBean.getAllAuthors()}" var="author"
+                     emptyMessage="Nothing found" filteredValue="#{AuthorBean.filteredValues}">
+            <p:column  headerText="Id" filterMatchMode="exact" filterBy="#{author.getAuthor_id()}">
+                <h:outputText value="#{author.getAuthor_id()}"/>
+            </p:column>
+            <p:column  headerText="Name" filterMatchMode="startsWith" filterBy="#{author.getAuthor_name()}">
+                <h:outputText value="#{author.getAuthor_name()}"/>
+            </p:column>
+            <p:column  headerText="Surname" filterMatchMode="startsWith" filterBy="#{author.getAuthor_surname()}">
+                <h:outputText value="#{author.getAuthor_surname()}"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+    <br/>
+
+</h:body>
+</html>

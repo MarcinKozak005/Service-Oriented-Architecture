@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+
+<h:head>
+    <title>Index</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:form id="loginForm" rendered="#{empty loggedIn}">
+        <p>Login using one of the DB Reader data</p>
+        <p>Ex: Adam A, Bob B</p>
+        <h:panelGrid columns="3">
+                Name:<h:inputText id="name" value="#{LoginBean.name}" required="true" requiredMessage="Insert name"/>
+                <h:message for="name" style="color: red"/>
+                Surname:<h:inputText id="surname" value="#{LoginBean.surname}" required="true" requiredMessage="Insert name"/>
+                <h:message for="surname" style="color: red"/>
+                <h:commandButton action="#{LoginBean.logIn()}" value="Sign In"/>
+        </h:panelGrid>
+    </h:form><br/>
+    <h:message for="loginForm" style="color: red"/>
+
+
+    <h:panelGroup rendered="#{loggedIn}">
+        <h2>CRUD operations</h2>
+        <p>CRUD operations in such form are for administrator of the page </p>
+        <p>All delete operations are implemented as soft-delete: rows aren't deleted from DB. Instead of it column 'deleted' is set to 'true'.
+           AUTHOR and CATEGORY deletion works differently- BOOK.author and BOOK.category are set to NULL while deleting corresponding DB rows.</p>
+        <p>In CRUD pages there is a possibility to filter results using Primefaces filter feature</p>
+        <h:button value="Reader Management" outcome="readerPage"/><br/>
+        <h:button value="Author Management" outcome="authorPage"/><br/>
+        <h:button value="Category Management" outcome="categoryPage"/><br/>
+        <h:button value="Book Management" outcome="bookPage"/><br/>
+        <h:button value="Specimen Management" outcome="specimenPage"/><br/>
+        <h:button value="Loan Management" outcome="loanPage"/><br/>
+        <br/>
+
+        <h2>Search Loans</h2>
+        <h:button value="Loans search" outcome="searchPage"/><br/>
+
+        <h2>My books</h2>
+        <h:dataTable value="#{LoanBean.getLoansForReader()}" var="loan"
+                     styleClass = "table"
+                     headerClass = "tableHeader"
+                     rowClasses = "tableOddRow,tableEvenRow">
+            <h:column>
+                <f:facet name="header">Specimen</f:facet>
+                <h:outputText value="#{loan.getLoan_specimen().getSpecimen_book().getBook_title()}"/>
+            </h:column>
+            <h:column>
+                <h:form>
+                    <f:facet name="header">Return</f:facet>
+                    <h:commandButton value="Return" action="#{LoanBean.returnBook(loan)}"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+
+        <h2>Loan a book</h2>
+        <p> Two users can't loan the same book at the same time. It can be checked in private window tab</p>
+        <h:dataTable value="#{MakeLoanBean.getSpecimensForLoan()}" var="obj"
+                     styleClass = "table"
+                     headerClass = "tableHeader"
+                     rowClasses = "tableOddRow,tableEvenRow">
+            <h:column>
+                <f:facet name="header">Book Title</f:facet>
+                <h:outputText value="#{obj[0]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Author</f:facet>
+                <h:outputText value="#{obj[1]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Category</f:facet>
+                <h:outputText value="#{obj[2]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">ISBN</f:facet>
+                <h:outputText value="#{obj[3]}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">SpecimenID</f:facet>
+                <h:outputText value="#{obj[4]}"/>
+            </h:column>
+            <h:column>
+                <h:form>
+                    <f:facet name="header">Loan</f:facet>
+                    <h:commandButton value="Loan" action="#{MakeLoanBean.loanSpecimen(obj[5])}" disabled="#{ not obj[5].isFree()}"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+    <br/>
+
+</h:body>
+</html>

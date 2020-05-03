@@ -1,0 +1,24 @@
+/*Taken from: https://www.tutorialspoint.com/jsf/jsf_outputstylesheet_tag.htm */
+
+.table {
+    border-collapse:collapse;
+    border:1px solid #000000;
+}
+
+.tableHeader {
+    text-align:center;
+    background:none repeat scroll 0 0 #B5B5B5;
+    border-bottom:1px solid #000000;
+    padding:2px;
+}
+
+.tableOddRow {
+    text-align:center;
+}
+
+.tableEvenRow {
+    text-align:center;
+    background:none repeat scroll 0 0 #D3D3D3;
+}
+
+/*Taken from: https://www.tutorialspoint.com/jsf/jsf_outputstylesheet_tag.htm */

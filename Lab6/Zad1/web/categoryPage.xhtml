@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> <!-- PrimeFaces -->
+<h:head>
+    <title>Category</title>
+    <h:outputStylesheet library="css" name="tabStyle.css"/>
+</h:head>
+
+<h:body>
+    <h:button value="Back" outcome="index"/><br/>
+    <h1>Add Category</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Name: <h:inputText id="categoryNameCreate" value="#{CategoryBean.name}" required="true" requiredMessage="Category name is required"/>
+            <h:message for="categoryNameCreate" style="color: red"/>
+            <h:commandButton value="Create" action="#{CategoryBean.addCategory()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Delete Category</h1>
+    <h:form>
+        <h:panelGrid columns="3">
+            Id: <h:inputText id="idDelete" value="#{CategoryBean.id}" required="true" requiredMessage="Id is required"/>
+            <h:message for="idDelete" style="color: red"/>
+            <h:commandButton value="Delete" action="#{CategoryBean.deleteCategory()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h1>Update Category</h1>
+    <p>Fill only those to update!</p>
+    <h:form>
+        <h:panelGrid columns="2">
+            Id: <h:inputText id="idUpdate" value="#{CategoryBean.id}" required="true" requiredMessage="Id is required"/>
+            Name: <h:inputText id="categoryNameUpdate" value="#{CategoryBean.name}" required="true" requiredMessage="Name is required"/>
+            <h:message for="categoryNameUpdate" style="color: red"/>
+            <h:message for="idUpdate" style="color: red"/>
+            <h:commandButton value="Update" action="#{CategoryBean.updateCategory()}"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h:form>
+        <p:dataTable value="#{CategoryBean.getAllCategories()}" var="category"
+                     emptyMessage="Nothing found" filteredValue="#{CategoryBean.filteredValues}">
+            <p:column  headerText="Id" filterMatchMode="exact" filterBy="#{category.getCategory_id()}">
+                <h:outputText value="#{category.getCategory_id()}"/>
+            </p:column>
+            <p:column  headerText="Name" filterMatchMode="startsWith" filterBy="#{category.getCategory_name()}">
+                <h:outputText value="#{category.getCategory_name()}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <br/>
+
+</h:body>
+</html>

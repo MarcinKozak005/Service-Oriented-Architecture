@@ -13,4 +13,6 @@ More detailed descriptions in READMEs inside the folders
 
 4\. **[EJB](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab4)** - Summing two numbers, simple Cinema counter.
 
-5\. **[JPA](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab5)** - Book Management
+5\. **[JPA, Hibernate](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab5)** - Simple book management app
+
+5\. **[Advanced Hibernate](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab6)** - More advanced book management app, Criteria API
