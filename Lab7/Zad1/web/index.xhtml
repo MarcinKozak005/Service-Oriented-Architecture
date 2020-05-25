@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <f:view>
+
+       <h:form id="loginForm" rendered="#{not loggedIn}">
+           Logging in: <h:inputText id="loginText" value="#{LoginBean.name}" required="true"/><br/>
+           <h:message for="loginText" id="errorMessage" style="color: red"/><br/>
+           <h:commandButton value="Log In" action="#{LoginBean.logIn()}"/>
+       </h:form>
+
+       <h:panelGroup rendered="#{loggedIn}">
+
+           <h2>Notifications:</h2>
+           <ui:repeat value="#{userObj.getNotifications()}" var="newMsg">
+               #{newMsg}<br/>
+           </ui:repeat>
+           <h:form>
+               <h:commandButton value="Clear notifications" action="#{ForumBean.removeMyNotifications(userObj)}"/>
+           </h:form><br/>
+
+           <h:form>
+               Add topic: <h:inputText binding="#{obj}"/>
+               <h:commandButton action="#{SenderTopic.sendMessage('createForumTopic',obj.value)}" value="Send"/>
+           </h:form>
+
+
+           <h:form>
+               <h:dataTable value="#{ForumBean.topics}" var="topic">
+                   <h:column>
+                       <f:facet name="header">Title</f:facet>
+                       <h:outputText value="#{topic.name}"/>
+                   </h:column>
+                   <h:column>
+                       <f:facet name="header">Observers</f:facet>
+                       <h:outputText value="#{topic.showObservers()}"/>
+                   </h:column>
+                   <h:column>
+                       <f:facet name="header">Observe/Unobserve</f:facet>
+                       <h:commandButton rendered="#{not userObj.isObserving(topic)}" action="#{topic.observe(userObj)}" value="Observe"/>
+                       <h:commandButton rendered="#{userObj.isObserving(topic)}" action="#{topic.unobserve(userObj)}" value="Unobserve"/>
+                   </h:column>
+                   <h:column>
+                       <f:facet name="header">Message text</f:facet>
+                       <h:inputText binding="#{topicMessage}" disabled="#{not userObj.isObserving(topic)}"/>
+                   </h:column>
+                   <h:column>
+                       <f:facet name="header">Send message</f:facet>
+                       <h:commandButton value="Send Msg" action="#{topic.sendMessage(userObj.getUserName().concat(' says: ').concat(topicMessage.value))}" disabled="#{not userObj.isObserving(topic)}"/>
+                   </h:column>
+               </h:dataTable>
+           </h:form>
+
+
+           <h1>Observed forums</h1>
+           <ui:repeat value="#{userObj.getObservedTopics()}" var="userTopic">
+               <h4>#{userTopic.getName()}</h4><br/>
+               <ui:repeat value="#{userTopic.getPosts()}" var="post">
+                   #{post}<br/>
+               </ui:repeat>
+           </ui:repeat>
+
+           <h:form>
+               <h1>Write message to: </h1>
+               <h:dataTable value="#{ForumBean.getUsersWithoutMe(userObj)}" var="user">
+                   <h:column>
+                       <f:facet name="header">User Name</f:facet>
+                       #{user.getUserName()}
+                   </h:column>
+                   <h:column>
+                       <h:inputText binding="#{msgBinding1}"/>
+                   </h:column>
+                   <h:column>
+                       <h:commandButton value="Send Msg" action="#{ForumBean.sendMsg(userObj,msgBinding1.value,user)}"/>
+                   </h:column>
+               </h:dataTable>
+           </h:form>
+
+           <ui:repeat value="#{userObj.getConversations().keySet()}" var="convers">
+               <h5>#{convers.getUserName()}</h5>
+               <ui:repeat value="#{userObj.getConversations().get(convers)}" var="msg">
+                   #{msg}<br/>
+               </ui:repeat>
+           </ui:repeat>
+       </h:panelGroup>
+
+   </f:view>
+</html>
