@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xml:lang="en" lang="en">
+<head>
+    <title>Clients</title>
+</head>
+<body>
+    <h:form>
+        <h3>Add Client</h3>
+        Name: <h:inputText id="clientTitle" value="#{ClientBean.name}" required="true"/><br/>
+        <h:message for="clientTitle" style="color: red"/><br/>
+        Age: <h:inputText id="clientAge" value="#{ClientBean.age}" required="true"/><br/>
+        <h:message for="clientAge" style="color: red"/>
+        <h:commandButton value="Add" action="#{ClientBean.addClient()}"/>
+    </h:form>
+    
+    <h:form>
+        <h3>Delete client</h3>
+        Id: <h:inputText id="deleteId" value="#{ClientBean.id}" required="true" validatorMessage="Input number"/><br/>
+        <h:message for="deleteId" style="color: red"/>
+        <h:commandButton value="Delete" action="#{ClientBean.deleteClient()}"/>
+    </h:form>
+    
+    <h:form>
+        <h3>Update Client</h3>
+        Id: <h:inputText id="updateId" value="#{ClientBean.id}" required="true" validatorMessage="Input number"/><br/>
+        Name: <h:inputText id="updateClientTitle" value="#{ClientBean.name}" required="true"/><br/>
+        <h:message for="updateClientTitle" style="color: red"/><br/>
+        Age: <h:inputText id="updateClientAge" value="#{ClientBean.age}" required="true"/><br/>
+        <h:message for="updateClientAge" style="color: red"/>
+        <h:commandButton value="Update" action="#{ClientBean.updateClient()}"/>
+    </h:form>
+    
+    <h3> Available clients</h3>
+    <h:dataTable value="#{ClientBean.getClients()}" var="client">
+        <h:column>
+            <f:facet name="header">Id</f:facet>
+            #{client.getId()}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Title</f:facet>
+            #{client.getName()}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Title</f:facet>
+            #{client.getAge()}
+        </h:column>
+        <h:column>
+            <f:facet name="header">URI</f:facet>
+            #{client.getImage()}
+        </h:column>
+    </h:dataTable>
+
+<!--<h:graphicImage value="#{ClientBean.getAppleImage()}"/>-->
+</body>
+</html>

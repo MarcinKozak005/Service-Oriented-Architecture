@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xml:lang="en" lang="en">
+<head>
+    <title>Movies</title>
+</head>
+<body>
+    <h:form>
+        <h3>Add Movie</h3>
+        Title: <h:inputText id="movieTitle" value="#{MovieBean.title}" required="true"/><br/>
+        <h:message for="movieTitle" style="color: red"/><br/>
+        <h:commandButton value="Add" action="#{MovieBean.addMovie()}"/>
+    </h:form>
+
+    <h:form>
+        <h3>Delete movie</h3>
+        Id: <h:inputText id="deleteId" value="#{MovieBean.id}" required="true" validatorMessage="Input number"/><br/>
+        <h:message for="deleteId" style="color: red"/>
+        <h:commandButton value="Delete" action="#{MovieBean.deleteMovie()}"/>
+    </h:form>
+
+    <h:form>
+        <h3>Update Movie</h3>
+        Id: <h:inputText id="updateId" value="#{MovieBean.id}" required="true" validatorMessage="Input number"/><br/>
+        <h:message for="updateId" style="color: red"/>
+        Title: <h:inputText id="updateTitle" value="#{MovieBean.title}" required="true"/><br/>
+        <h:message for="updateTitle" style="color: red"/><br/>
+        <h:commandButton value="Update" action="#{MovieBean.updateMovie()}"/>
+    </h:form>
+
+    <h3> Available movies</h3>
+    <h:dataTable value="#{MovieBean.getMovies()}" var="movie">
+        <h:column>
+            <f:facet name="header">Id</f:facet>
+            #{movie.getId()}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Title</f:facet>
+            #{movie.getTitle()}
+        </h:column>
+        <h:column>
+            <f:facet name="header">URI</f:facet>
+            #{movie.getUri()}
+        </h:column>
+    </h:dataTable>
+
+</body>
+</html>
