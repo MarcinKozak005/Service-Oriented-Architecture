@@ -1,7 +1,6 @@
-# Work In Progress: SOA_AGH
+# SOA AGH
 
-Work In Progress: Exercises and mini-project made for SOA classes.
-
+Exercises and mini-project made for SOA classes.
 
 ### Content
 
@@ -17,6 +16,6 @@ More detailed descriptions in READMEs inside the folders
 
 6\. **[Advanced Hibernate](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab6)** - More advanced book management app, Criteria API
 
-7\. **[WIP: JMS](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab7)** - Not finished JMS
+7\. **[JMS](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab7)** - Not complete JMS exercises and app
 
 8\. **[REST API](https://github.com/MarcinKozak005/SOA_AGH/tree/master/Lab8)** - Simple REST API
