@@ -1,4 +1,4 @@
-# SOA AGH
+# Service-Oriented-Architecture
 
 Exercises and mini-project made for SOA classes.
 
